@@ -1,0 +1,320 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <title>Mastermind !</title>
+	<link rel="stylesheet" type="text/css" href="style_officiel.css">
+</head>
+
+<body>
+
+
+<h2>L'ordinateur devine !</h2>
+<div id="div_preparation">
+	Préciser le nombre de clés : <input id="input_valCles" value="8"></input></br>
+	Préciser la taille : <input id="input_nbCles" value="4"></input></br>
+	<span class="clic_raccourci_prepa" id="clic_prepa306">3/6</span> 
+	<span class="clic_raccourci_prepa" id="clic_prepa408">4/8</span> 
+	<span class="clic_raccourci_prepa" id="clic_prepa510">5/10</span> 
+	<span class="clic_raccourci_prepa" id="clic_prepa612">6/12</span></br>
+	<span class="clic_raccourci_prepa" id="clic_prepa426">4/26</span>
+	<span class="clic_raccourci_prepa" id="clic_prepa412">4/12</span>
+	<span class="clic_raccourci_prepa" id="clic_prepa516">5/16</span>
+	<span class="clic_raccourci_prepa" id="clic_prepa616">6/16</span>
+	</br>  
+	<span id="clic_preparation">Lancer le jeu</span> </br>
+</div>
+
+<div id="div_proposition" style="display:none">
+	<div id="div_proposition_commune">
+		Proposition du devin <span id="proposition"></span></br>
+		Bons : <input id="input_bons" value=""></input></br>
+		Mauvais :<input id="input_mauvais" value=""></input></br>
+		<span id="clic_reponse">Soumettre réponse</span></br>
+	</div>
+	<div id="div_ultime_proposition" style="display:none">
+		L'IA est sûre d'elle, le code est : <span id="span_ultime_proposition"></span></br>
+		<span class="ultime_proposition_ia" id="clic_ultime_oui">Oui</span></br>
+		<span class="ultime_proposition_ia" id="clic_ultime_non">Non ! Le code est : </span>
+		<input id="input_reponse_finale" value=""></span>
+	</div>
+	<div id="div_code_impossible" style="display:none">
+		L'IA ne voit aucune proposition possible.</br> 
+		Es-tu sûr de ne pas avoir fait d'erreur ?</br>
+		A quel code penses-tu ?</br>
+		<input id="input_code_impossible" value=""></span></br>
+		<span id="clic_code_impossible">Voilà le code</span></br>
+	</div>
+</div>
+
+<div id="div_liste_propositions">
+
+</div>
+
+<div id="div_reponse_devin"></div>
+<script type="text/javascript" src="masterthinker.js"></script>
+<script type="text/javascript" src="masterthinker_affichage.js"></script>
+
+<script type="text/javascript" src="masterthinker_tableauchaine.js"></script>
+<script type="text/javascript" src="masterthinker_scrambleur.js"></script>
+<script type="text/javascript" src="masterthinker_utile.js"></script>
+<script type="text/javascript" src="masterthinker_tri_fusion.js"></script>
+<script type="text/javascript" src="masterthinker_selection.js"></script>
+<script type="text/javascript" src="masterthinker_clesMP.js"></script>
+<script type="text/javascript" src="masterthinker_lettres_libres.js"></script>
+
+<script type="text/javascript" src="masterthinker_setup_game.js"></script>
+<script type="text/javascript" src="masterthinker_setup_proposition.js"></script>
+
+<script type="text/javascript" src="masterthinker_constructionLegacy.js"></script>
+<script type="text/javascript" src="masterthinker_exploration.js"></script>
+<script type="text/javascript" src="masterthinker_construction.js"></script>
+
+<script type="text/javascript" src="controller.js"></script>
+
+<script> 
+
+	var champNbCles = document.getElementById("input_nbCles");
+	var champValCles = document.getElementById("input_valCles");
+	
+		
+	document.getElementById("clic_prepa306").addEventListener('click',function(e){
+		setNbClesValClesChamps(champNbCles,champValCles,3,6);
+	});
+	document.getElementById("clic_prepa408").addEventListener('click',function(e){
+		setNbClesValClesChamps(champNbCles,champValCles,4,8);
+	});
+	document.getElementById("clic_prepa510").addEventListener('click',function(e){
+		setNbClesValClesChamps(champNbCles,champValCles,5,10);
+	});
+	document.getElementById("clic_prepa612").addEventListener('click',function(e){
+		setNbClesValClesChamps(champNbCles,champValCles,6,12);
+	});
+	document.getElementById("clic_prepa426").addEventListener('click',function(e){
+		setNbClesValClesChamps(champNbCles,champValCles,4,26);
+	});
+	document.getElementById("clic_prepa412").addEventListener('click',function(e){
+		setNbClesValClesChamps(champNbCles,champValCles,4,12);
+	});
+	document.getElementById("clic_prepa516").addEventListener('click',function(e){
+		setNbClesValClesChamps(champNbCles,champValCles,5,16);
+	});
+	document.getElementById("clic_prepa616").addEventListener('click',function(e){
+		setNbClesValClesChamps(champNbCles,champValCles,6,16);
+	});
+
+	var dejaYggrasil = false;
+	var div_liste_propositions = document.getElementById("div_liste_propositions");
+	var historique_propositions = [];
+	var historique_bp = [];
+	var historique_mp = [];
+	var ancienneProposition;
+
+	
+	
+	//function filtrer
+
+	document.getElementById("clic_preparation").addEventListener('click',function(e){
+		definirValeurBasesEtScrambleur(champNbCles,champValCles);
+		valMinTest=-1;
+		valMaxTest=-1;
+		proposition = genererCodeSuivant(0);
+		document.getElementById("proposition").innerHTML = proposition;
+		div_liste_propositions.innerHTML = "";
+		changerCouleurElt(document.getElementById("clic_reponse"),"#ffff00");
+		yggdrasil = null;
+		document.getElementById("div_proposition").style.display="block";
+	});
+	
+	//Ultime proposition : l'IA a bien répondu
+	document.getElementById("clic_ultime_oui").addEventListener('click',function(e){
+		alert("Super ;)");
+		div_liste_propositions.innerHTML += chaineNouveauNoeudBon(proposition);
+	});
+
+	//Ultime proposition : l'IA "se serait trompée"	
+	document.getElementById("clic_ultime_non").addEventListener('click',function(e){
+		var ultimeCodeHumain = document.getElementById("input_reponse_finale").value;
+		testerCoherenceCodeHumain(ultimeCodeHumain);
+	});
+	
+	//Code introuvable : l'IA demande des comptes
+	document.getElementById("clic_code_impossible").addEventListener('click',function(e){
+		var ultimeCodeHumain = document.getElementById("input_code_impossible").value;
+		testerCoherenceCodeHumain(ultimeCodeHumain);
+	});
+	
+	//Teste si le code proposé - par un humain - est : 1) cohérent vis-à-vis de nbCles et valCles 2) cohérent vis-à-vis de toutes les propositions
+	function testerCoherenceCodeHumain(propositionHumaine){
+		if (!testerCoherenceProposition(propositionHumaine)){
+			alert("Ce code n'est pas cohérent avec la taille ("+nbCles+") ou les valeurs possibles (de A à "+String.fromCharCode(valCles+posA-1)+"). Est-ce une erreur de frappe ou le code a mal été pensé ? En outre, des majuscules sont attendues.");
+		}
+		else{
+			var ok = true;
+			var i = 0;
+			while(i < historique_bp.length && ok){
+				ok = testerCoherenceAuCodeUltime(historique_propositions[i],historique_bp[i],historique_mp[i],propositionHumaine);
+				if (ok){
+					i++;
+				}
+			}
+			if (!ok){
+				alert("L'IA conteste : "+historique_propositions[i]+" "+historique_bp[i]+" "+historique_mp[i]+" "
+				+" n'est pas cohérent avec le code "+propositionHumaine+ " ! Sois plus attentif la prochaine fois !");
+			}
+			else{
+				alert("L'IA fait son mea culpa...");
+			}
+		}
+	}
+	
+	//Teste si la proposition de gauche est correcte en termes de bp et de mp à celle de droite
+	function testerCoherenceAuCodeUltime(proposition,bp,mp,codeFinal){
+		var dejaPris = []; //Indique si une clé est prise par les bp
+		var vraisBP = 0;
+		var vraisMP = 0;
+		var occurencesMP = new Array(valCles);
+		var i;
+		for(i=0;i<valCles;i++){
+			occurencesMP[i] = 0;
+		}
+		//Passe des bp et signalisation des lettres MP dans proposition
+		for(i=0;i<nbCles;i++){
+			if (proposition.charAt(i) == codeFinal.charAt(i)){
+				vraisBP++;
+				dejaPris.push(true);
+			}
+			else{
+				dejaPris.push(false);
+				occurencesMP[positionApresA(codeFinal.charAt(i))]++;
+			}
+		}
+		if (vraisBP != bp){
+			return false;
+		}
+		//Passe des mp
+		for(i=0;i<nbCles;i++){
+			if(!dejaPris[i] && occurencesMP[positionApresA(proposition.charAt(i))] > 0){
+				vraisMP++;
+				occurencesMP[positionApresA(proposition.charAt(i))]--;
+			}
+		}
+		return vraisMP == mp;
+	}
+	
+	//Teste si une proposition est cohérente avec les valeurs de nbCles et valCles
+	function testerCoherenceProposition(propositionHumain){
+		if (propositionHumain.length != nbCles){
+			return false;
+		}
+		var i=0;
+		var ok = true;
+		var posApresA;
+		while(i<nbCles && ok){
+			posApresA = positionApresA(propositionHumain.charAt(i));
+			if (posApresA < 0 || posApresA >= valCles){
+				ok = false;
+			}
+			else{
+				i++;
+			}
+		}
+		return ok;
+	}
+
+	
+	//Clic sur la soumission d'une réponse
+	document.getElementById("clic_reponse").addEventListener('click',function(e){
+		var bp = parseInt(document.getElementById("input_bons").value);
+		var mp = parseInt(document.getElementById("input_mauvais").value);
+		//Test de cohérence
+		if (isNaN(bp) || isNaN(mp)){
+			alert("Merci de saisir des valeurs numériques.");
+			return;
+		}
+		if (bp < 0 || mp < 0 || bp+mp > nbCles || ((bp == nbCles-1)&&(mp == 1))){
+			alert("Merci de saisir des valeurs cohérentes.");
+			return;
+		}
+		
+		changerCouleurElt(document.getElementById("clic_reponse"),"#ff0000");
+		if(bp==nbCles && mp==0){
+			alert("Super ;)");
+			div_liste_propositions.innerHTML += chaineNouveauNoeudBon(proposition);
+		}
+		else{
+			testerProposition(bp,mp);
+			var ancienneProposition=proposition;
+			preparerCode();
+			dejaYggrasil = (dejaYggrasil || (yggdrasil != null && yggdrasil.length > 0))
+			if (dejaYggrasil){
+				retournerCode(yggdrasil);
+				console.log("Nombre de possibilités = "+totalPossibilites);
+				if (totalPossibilites == 1){
+					console.log("Alerte ! Plus qu'une possibilité !");
+					document.getElementById("span_ultime_proposition").innerHTML = proposition;
+					document.getElementById("div_ultime_proposition").style.display = "block";
+					document.getElementById("div_proposition_commune").style.display = "none";
+					ajouter_proposition(bp,mp,ancienneProposition);
+					document.getElementById("input_bons").style.enabled=false;
+					document.getElementById("input_mauvais").style.enabled=false;	
+				}
+				else if (totalPossibilites == 0){
+					ajouter_proposition_mauvais(bp,mp,ancienneProposition);
+					document.getElementById("span_ultime_proposition").innerHTML = proposition;
+					document.getElementById("div_code_impossible").style.display = "block";
+					document.getElementById("div_proposition_commune").style.display = "none";
+				}
+				else{
+					ajouter_proposition(bp,mp,ancienneProposition);
+				}
+			}
+			else{
+				proposition = genererCodeSuivant(valMaxTest+1);
+				ajouter_proposition(bp,mp,ancienneProposition);
+			}		
+		}
+		changerCouleurElt(document.getElementById("clic_reponse"),"#ffff00");
+		document.getElementById("input_bons").value = 0;
+		document.getElementById("input_mauvais").value = 0;
+		document.getElementById("proposition").innerHTML = proposition;
+	});
+	
+	function chaineNouveauNoeud(bp,mp,prop){
+		return "<span class=\"exemple_proposition\">"+prop+" </span><span class=\"exemple_bons\">"+bp+" </span><span class=\"exemple_mauvais\">"+mp+"</span></br>";
+	}
+	
+	function chaineNouveauNoeudBon(prop){
+		return "<span class=\"bonne_proposition\">"+prop+" "+nbCles+" 0"+"</span></br>";
+	}
+
+	function chaineNouveauNoeudMauvais(bp,mp,prop){
+		return "<span class=\"mauvaise_proposition\">"+prop+" "+bp+" "+mp+"</span></br>";
+	}
+	
+		//Ajoute un code (qui n'est ni celui de certitude ni celui de désapprobation) à ceux existants dans le tableau ainsi que dans le HTML.
+	function ajouter_proposition(bp,mp,proposition){
+		historique_propositions.push(proposition);
+		historique_bp.push(bp);
+		historique_mp.push(mp);
+		div_liste_propositions.innerHTML += chaineNouveauNoeud(bp,mp,proposition);
+	} 
+	
+	//Idem mais avec une mauvaise proposition
+	function ajouter_proposition_mauvais(bp,mp,proposition){
+		historique_propositions.push(proposition);
+		historique_bp.push(bp);
+		historique_mp.push(mp);
+		div_liste_propositions.innerHTML += chaineNouveauNoeudMauvais(bp,mp,proposition);
+	}
+	
+	/*
+	Change la couleur d'un élément span avec une couleur en hexadécimal
+	*/
+	function changerCouleurElt(spanElt,couleurHexaDecimal){
+		spanElt.style.backgroundColor =couleurHexaDecimal;
+	}
+</script>
+
+</body>
+</html>
+
