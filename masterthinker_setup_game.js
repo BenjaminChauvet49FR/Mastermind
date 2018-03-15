@@ -1,8 +1,32 @@
-var yggdrasil = null;
-var nbCles = 0; //Nombre de clés qui composent le code
-var valCles = 0; //Nombre de valeurs différentes
-var scrambleur = []; 
-var retroScrambleur; /*Donne la position de chaque lettre de l'alphabet dans le scrambleur. Exemple : scrambleur = 'BHCAFDEG' => retroScrambleur = [3,0,2,5,6,4,7,1]*/
+/*
+Contient l'ensemble des instructions lorsqu'on démarre une partie
+*/
+
+/*
+Implémentation du début de la partie (pour le masterthinker)
+Post-condition :
+-scrambleur défini
+-proposition définie
+*/
+function demarrerPartie(parametres){
+	valCles = parseInt(parametres.valeurCles);
+	nbCles = parseInt(parametres.nombreCles);
+	definirScrambleur();
+	valMinTest=-1;
+	valMaxTest=-1;
+	proposition = genererCodeSuivant(0);
+	yggdrasil = null;
+	dejaYggrasil = false;
+	historique_propositions = []; //Liste des propositions du devin
+    historique_bp = []; //Liste des "nombres de clés bien placées" correspondant au tableau historique_propositions
+    historique_mp = [];
+	tableauChaine = [];
+	occurencesTC = [];
+	nbPlacesLibres = 0;
+}
+
+
+
 
 
 /*Définit le scrambleur et le rétroscrambleur ; affiche le scrambleur.

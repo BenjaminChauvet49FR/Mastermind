@@ -1,5 +1,11 @@
-//Pour un code donné, ensemble de clés libres, le valMaxTest lors de l'essai précédent, donne le nombre de codes possibles.
-//Exemple : scrambleur ABCDEFGH, valMax = 3 : nbPossibilites(A-B- , [AB1]) = 5*6 = 20)
+/*
+Fonctions relatives à la sélection du code
+*/
+
+/*
+Pour un code + ensemble de clés libres donnés, le valMaxTest lors de l'essai précédent, donne le nombre de codes possibles.
+Exemple : scrambleur ABCDEFGH, valMax = 3 : nbPossibilites(A-B- , [AB1]) = 5*6 = 20)
+*/
 function nbPossibilites(code,cl){
 	var valDash = valCles-valMaxTest-1;
 	if (valDash < 0){
@@ -17,8 +23,14 @@ function nbPossibilites(code,cl){
 	return reponse;
 }
 
-//Fabrique un code. Précondition : il y a au moins une possibilité et les nouvelles valeurs de valMinTest et valMaxTest sont connues.
-//valMinScrambleur = Indice de scrambleur de la 1ère nouvelle lettre à exploiter
+/*
+Fabrique un code à partir de clés déjà en place et de clés manquantes, à remplacer par des clés libres ou non encore testées dans l'ordre du scrambleur. 
+Préconditions : 
+-on est à l'extrêmité d'un rameau dans retournerCode
+-il y a au moins une possibilité pour ce code-branche
+-les nouvelles valeurs de valMinTest et valMaxTest sont connues.
+-valMinScrambleur = Indice de scrambleur de la 1ère nouvelle lettre à exploiter
+*/
 function fabriquerProposition(tc,cl,valMinScrambleur){
 	var reponse = "";
 	var carac;
@@ -89,34 +101,42 @@ function fabriquerProposition(tc,cl,valMinScrambleur){
 	*/
 	
 }
-
-var totalPossibilites;
-var possibilites
-var monCode = [];
-var alea;
-function preparerCode(){
-	monCode = [];
+ 
+/*
+Initialise le tableau de lettres codePourSelection
+*/
+function preparerCodePourSelection(){
+	codePourSelection = [];
 	totalPossibilites = 0;
 	for(var i=0;i<nbCles;i++)
-		monCode.push("-");	
+		codePourSelection.push("-");	
 }
-//Choisir un code (avant les nouvelles valeurs de valMinTest et de valMaxTest).
-//Précondition : foret est null, monCode = ------ (en tableau)
+
+/*
+Choisit un code parmi la forêt d'yggdrasil (avant les nouvelles valeurs de valMinTest et de valMaxTest).
+Précondition : 
+-premier appel : foret correspond à yggdrasil
+-foret est non null 
+-tableau codePourSelection correspond à ------ 
+*/
+
 
 function retournerCode(foret){
+	var alea; //Utilisée dans 
+	
 	for(var i=0;i<foret.length;i++){
-		monCode[foret[i].p] = foret[i].c;
+		codePourSelection[foret[i].p] = foret[i].c;
 		if (foret[i].f != null && foret[i].f != undefined){
 			retournerCode(foret[i].f);
 		}
 		else{
-			possibilites = nbPossibilites(monCode,foret[i].ll);
+			possibilites = nbPossibilites(codePourSelection,foret[i].ll);
 			totalPossibilites += possibilites;
 			alea = aleatoire(1,totalPossibilites);
 			if (alea<=possibilites){
-				proposition = fabriquerProposition(monCode,foret[i].ll,valMaxTest+1);
+				proposition = fabriquerProposition(codePourSelection,foret[i].ll,valMaxTest+1);
 			}
 		}
-		monCode[foret[i].p] = "-";
+		codePourSelection[foret[i].p] = "-";
 	}
 }

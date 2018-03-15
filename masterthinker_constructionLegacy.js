@@ -1,6 +1,3 @@
-function debugExploValidation(llFinal){
-	debugExplo("("+cTableauChaine()+") OK, on valide avec "+chaineCL(llFinal));	
-}
 
 /*
 Renvoie une liste d'arbres correspondant au contexte.

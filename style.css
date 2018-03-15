@@ -6,7 +6,7 @@ table{
 	border-collapse : collapse;
 }
 
-#div_preparation{
+#div_preparation, #div_resume{
 	background-image: url("seamless/acier.jpg");
 	width:20%;
 }
@@ -38,7 +38,7 @@ table{
 	margin:0.2em;
 }
 
-#clic_preparation{
+#clic_preparation, #clic_retour{
 	text-align: center;
 	border: 1px solid black;
 	background-color: #ffff00;

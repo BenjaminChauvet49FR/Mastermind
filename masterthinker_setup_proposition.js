@@ -1,18 +1,3 @@
-var proposition;
-var valMinTest = -1; //Indice dans le scrambleur de la première clé testée par cette proposition et non testée par les précédentes.
-var valMaxTest = -1; //Indice dans le scrambleur de la dernière clé testée par toutes les propositions.
-/*Les deux variables valent valCles si on a déjà testé toutes les clés à la proposition précédente
-Exemple : 
-1ère proposition = 'ABCDAB' : valMinTest = 0, valMaxTest = 3 pour la résolution ; car on teste les clés de A à D (à la 1ère résolution on a toujours valMinTest = 0)
-2ème proposition = AEFDCG : valMinTest = 4, valMaxTest = 6 (car les nouvelles clés testées sont de E à G)
-*/
-var tableauChaine;
-var occurencesTC; 
-/*Nombre de fois qu'il est encore possible de mettre chaque lettre dans tableauChaine ; tableau ordonné selon les valeurs du scrambleur 
-(exemple : si scrambleur = 'ABCDEF', proposition = 'ABCDAB' on a au départ tableauChaine = '------' et donc occurencesTC = [2,2,1,1,0,0] ; 
-si à un moment où tableauChaine= 'BBA---' on a occurencesTC = [1,0,1,1,0,0])*/
-var nbPlacesLibres;
-/*nombre de places libres dans tableauChaines*/
 
 
 
@@ -38,16 +23,13 @@ function resetTC(){
 
 /*
 Adapte à position les valeurs de valMinTest et valMaxTest
-Prérequis : Une nouvelle valeur de "proposition" est en place dans tableauChaine. 
-Ensuite : valMinTest = valMaxTest de la précédente proposition+1. Sauf si les 2 étaient déjà à valCles. (la 1ère fois, on considère que valMinTest = 0 et valMaxTest = après.
+Précondition : Une nouvelle valeur de "proposition" est en place dans tableauChaine. 
+Postcondition : valMinTest = valMaxTest de la précédente proposition+1. Sauf si les 2 étaient déjà à valCles. (la 1ère fois, on considère que valMinTest = 0 et valMaxTest = après.
 */
 function setValMinMax(){
 	if(valMinTest < valCles){
 		valMinTest = valMaxTest+1;
 		valMaxTest = valMinTest;
-		/*do{
-			valMaxTest++;
-		}while((valMaxTest < valCles) && (occurencesTC[valMaxTest] > 0));*/
 		while((valMaxTest < valCles) && (occurencesTC[valMaxTest] > 0)){
 			valMaxTest++;
 		}
@@ -55,7 +37,10 @@ function setValMinMax(){
 	}
 }
 
-
+/*
+Génère un code en suivant le scrambleur ou en plaçant des lettres aléatoires
+Précondition : on sait que dans l'ordre du scrambleur aucune clé d'indice < valClemin n'est présent dans le code à trouver (appelé lorsque dejaYggdrasil est à false)
+*/
 function genererCodeSuivant(valCleMin){
 	reponse = "";
 	var alea;
