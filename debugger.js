@@ -6,6 +6,7 @@ var debugBoucleMode = false;
 var debugConstructionMode=true;
 var debugExplorationMode = true;
 var debugChaineExploMode = false;
+var debugGeneratorMode = true;
 var indentConst = 0;
 var indentExplo = 0;
 
@@ -16,6 +17,10 @@ function debugChaine(chaine){
 }
 function debugBoucle(chaine){
 	if (debugBoucleMode)
+		console.log(chaine);
+}
+function debugGenerator(chaine){
+	if (debugGeneratorMode)
 		console.log(chaine);
 }
 

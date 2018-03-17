@@ -113,9 +113,9 @@ function preparerCodePourSelection(){
 }
 
 /*
-Choisit un code parmi la forêt d'yggdrasil (avant les nouvelles valeurs de valMinTest et de valMaxTest).
+Choisit un code parmi la forêt de foretGenerale (avant les nouvelles valeurs de valMinTest et de valMaxTest).
 Précondition : 
--premier appel : foret correspond à yggdrasil
+-premier appel : foret correspond à foretGenerale
 -foret est non null 
 -tableau codePourSelection correspond à ------ 
 */

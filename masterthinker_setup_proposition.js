@@ -39,7 +39,7 @@ function setValMinMax(){
 
 /*
 Génère un code en suivant le scrambleur ou en plaçant des lettres aléatoires
-Précondition : on sait que dans l'ordre du scrambleur aucune clé d'indice < valClemin n'est présent dans le code à trouver (appelé lorsque dejaYggdrasil est à false)
+Précondition : on sait que dans l'ordre du scrambleur aucune clé d'indice < valClemin n'est présent dans le code à trouver (appelé lorsque dejaForet est à false)
 */
 function genererCodeSuivant(valCleMin){
 	reponse = "";

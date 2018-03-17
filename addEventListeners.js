@@ -94,50 +94,31 @@ document.getElementById("clic_reponse").addEventListener('click',function(e){
 	}
 	
 	changerCouleurElt(document.getElementById("clic_reponse"),"#ff0000");
-	if(bp==nbCles && mp==0){
-		//style
+	var ancienneProposition=proposition;
+	var reactionDevin = reagirABPMP(bp,mp);
+	if (reactionDevin == DEVIN_TROUVE_CHANCEUX){
 		alert("Super ;)");
 		div_liste_propositions.innerHTML += chaineNouveauSpanBon(proposition);
+	}		
+	if (reactionDevin == DEVIN_TROUVE_CERTITUDE){
+		//semi-style
+		ajouter_propositionHTML(div_liste_propositions,bp,mp,ancienneProposition);
+		//style
+		debugExplo("Alerte ! Plus qu'une possibilité !");
+		document.getElementById("span_ultime_proposition").innerHTML = proposition;
+		document.getElementById("div_ultime_proposition").style.display = "block";
+		document.getElementById("div_proposition_commune").style.display = "none";
+		document.getElementById("input_bons").style.enabled=false;
+		document.getElementById("input_mauvais").style.enabled=false;	
 	}
-	else{
-		testerProposition(bp,mp);
-		var ancienneProposition=proposition;
-		preparerCodePourSelection();
-		dejaYggrasil = (dejaYggrasil || (yggdrasil != null && yggdrasil.length > 0));
-		
-		if (dejaYggrasil){
-			retournerCode(yggdrasil);
-			debugExplo("Nombre de possibilités = "+totalPossibilites);
-			if (totalPossibilites == 1){
-				//semi-style
-				ajouter_proposition(bp,mp,ancienneProposition);
-				ajouter_propositionHTML(bp,mp,ancienneProposition);
-				//style
-				debugExplo("Alerte ! Plus qu'une possibilité !");
-				document.getElementById("span_ultime_proposition").innerHTML = proposition;
-				document.getElementById("div_ultime_proposition").style.display = "block";
-				document.getElementById("div_proposition_commune").style.display = "none";
-				document.getElementById("input_bons").style.enabled=false;
-				document.getElementById("input_mauvais").style.enabled=false;	
-			}
-			else if (totalPossibilites == 0){
-				//semi-style
-				ajouter_propositionHTML_mauvais(bp,mp,ancienneProposition);
-				ajouter_proposition(bp,mp,ancienneProposition);
-				document.getElementById("span_ultime_proposition").innerHTML = proposition;
-				document.getElementById("div_code_impossible").style.display = "block";
-				document.getElementById("div_proposition_commune").style.display = "none";
-			}
-			else{
-				ajouter_propositionHTML(bp,mp,ancienneProposition);
-				ajouter_proposition(bp,mp,ancienneProposition);
-			}
-		}
-		else{
-			proposition = genererCodeSuivant(valMaxTest+1);
-			ajouter_propositionHTML(bp,mp,ancienneProposition);
-			ajouter_proposition(bp,mp,ancienneProposition);
-		}		
+	if (reactionDevin == DEVIN_INTROUVABLE){
+		ajouter_propositionHTML_mauvais(div_liste_propositions,bp,mp,ancienneProposition);
+		document.getElementById("span_ultime_proposition").innerHTML = proposition;
+		document.getElementById("div_code_impossible").style.display = "block";
+		document.getElementById("div_proposition_commune").style.display = "none";
+	}
+	if (reactionDevin == DEVIN_COMMUN){
+		ajouter_propositionHTML(div_liste_propositions,bp,mp,ancienneProposition);
 	}
 	
 	changerCouleurElt(document.getElementById("clic_reponse"),"#ffff00");
@@ -149,36 +130,7 @@ document.getElementById("clic_reponse").addEventListener('click',function(e){
 
 
 
-/*
-Construit l'arbre yggdrasil
-Précondition : proposition est correctement initialisée
-Postcondition : yggdrasil contient un ensemble de possibilités
-*/
-function testerProposition(nbB,nbM){
-	if (yggdrasil != null && yggdrasil.length > 0){
-		console.log("====Exploration avec "+proposition+" "+nbB+"/"+nbM+"====");
-		resetTC();
-		setValMinMax();
-		yggdrasil = explorer(yggdrasil,nbB,nbM);
-	}
-	else{
-		console.log("====Construction avec "+proposition+" "+nbB+"/"+nbM+"====");
-		resetClesMP();
-		resetTC();
-		setValMinMax();
-		yggdrasil = construirePossibilites(nbB,nbM,[]);
-	}	
-}
 
-/*
-Ajoute un code dans les tableaux d'historique
-Condition : toujours appelé aux côtés de ajouter_propositionHTML ou dérivé
-*/
-function ajouter_proposition(bp,mp,proposition){
-	historique_propositions.push(proposition);
-	historique_bp.push(bp);
-	historique_mp.push(mp);
-}
 	
 //------
 // Fin de partie
@@ -196,7 +148,7 @@ Instruction AEL pour signifier à l'IA qu'elle s'est trompée (lui donne le bon 
 */	
 document.getElementById("clic_ultime_non").addEventListener('click',function(e){
 	var ultimeCodeHumain = document.getElementById("input_reponse_finale").value;
-	testerCoherenceCodeHumain(ultimeCodeHumain);
+	testerCoherenceCodeHumainHTML(ultimeCodeHumain);
 });
 	
 /*
@@ -204,7 +156,25 @@ Instruction AEL pour donner le code à l'IA alors ue celle-ci pense qu'il n'y en
 */
 document.getElementById("clic_code_impossible").addEventListener('click',function(e){
 	var ultimeCodeHumain = document.getElementById("input_code_impossible").value;
-	testerCoherenceCodeHumain(ultimeCodeHumain);
+	testerCoherenceCodeHumainHTML(ultimeCodeHumain);
 });
 
+/*
+Définition AEL pour que le devin teste le code de l'humain
+*/
+function testerCoherenceCodeHumainHTML(propositionMaitre){
+	var reponse = testerCoherenceCodeMaitre(propositionMaitre);
+	if (reponse == DEVIN_CODE_INCOHERENT_PARAMS){
+		alert("Ce code n'est pas cohérent avec la taille ("+nbCles+") ou les valeurs possibles (de A à "+String.fromCharCode(valCles+posA-1)+"). Est-ce une erreur de frappe ou le code a mal été pensé ? En outre, des majuscules sont attendues.");		
+	}
+	if (reponse == DEVIN_ECHEC){
+		alert("L'IA n'a pas trouvé. Bravo...");
+	}
+	if (reponse.type != undefined){
+		if (reponse.type == DEVIN_CODE_INCOHERENT_PROPOSITIONS){
+			alert ("L'IA conteste : "+reponse.proposition+" "+reponse.bp+" "+reponse.mp+" "
+			+" n'est pas cohérent avec le code "+propositionMaitre+ ". Sois plus attentif la prochaine fois.");
+		}
+	}
+}
 

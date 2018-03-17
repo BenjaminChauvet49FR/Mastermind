@@ -2,12 +2,20 @@
 Constantes
 */
 var posA = 65; 
+var DEVIN_INDEFINI = -1; //Valeur du devin qui ne correspond à aucun état de code trouvé ou autre. 
+var DEVIN_TROUVE_CHANCEUX = 0;
+var DEVIN_TROUVE_CERTITUDE = 1;
+var DEVIN_INTROUVABLE = 2;
+var DEVIN_COMMUN = 3;
+var DEVIN_CODE_INCOHERENT_PARAMS = 4;
+var DEVIN_CODE_INCOHERENT_PROPOSITIONS = 5;
+var DEVIN_ECHEC = 6;
 
 /*
 Liste de toutes les variables globales + initialisation de certaines d'elles.
 */
-var yggdrasil = null; 
-var dejaYggrasil = false; //vaut true si on a déjà une valeur d'yggdrasil existante, false sinon. Testée et mise à jour dans la fonction lorsqu'on soumet une nouvelle proposition.
+var foretGenerale = null; 
+var dejaYggrasil = false; //vaut true si on a déjà une valeur d'foretGenerale existante, false sinon. Testée et mise à jour dans la fonction lorsqu'on soumet une nouvelle proposition.
 var historique_propositions = []; //Liste des propositions du devin
 var historique_bp = []; //Liste des "nombres de clés bien placées" correspondant au tableau historique_propositions
 var historique_mp = []; //Liste des "nombres de clés mal placées" correspondant au tableau historique_propositions
@@ -31,6 +39,9 @@ Exemple :
 1ère proposition = 'ABCDAB' : valMinTest = 0, valMaxTest = 3 pour la résolution ; car on teste les clés de A à D (à la 1ère résolution on a toujours valMinTest = 0)
 2ème proposition = AEFDCG : valMinTest = 4, valMaxTest = 6 (car les nouvelles clés testées sont de E à G)
 */
+
+var code; //Le code généré par le maître (lorsque le maître est une IA ou un humain)
+var occurencesCode; //Tableau constant des occurences des lettres dans le code ; tableau ordonné naturellement et donc indépendant du scrambleur.
 
 var tableauChaine; //Tableau utilisé dans la construction du code
 var occurencesTC; 

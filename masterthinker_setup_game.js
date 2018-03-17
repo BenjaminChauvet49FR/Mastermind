@@ -15,7 +15,7 @@ function demarrerPartie(parametres){
 	valMinTest=-1;
 	valMaxTest=-1;
 	proposition = genererCodeSuivant(0);
-	yggdrasil = null;
+	foretGenerale = null;
 	dejaYggrasil = false;
 	historique_propositions = []; //Liste des propositions du devin
     historique_bp = []; //Liste des "nombres de clés bien placées" correspondant au tableau historique_propositions

@@ -6,16 +6,17 @@ Ce fichier contient les fonctions de manipulation de HTML qui découlent des év
 Ajoute un code (qui n'est ni celui de certitude ni celui de désapprobation) dans le HTML.
 Condition : toujours appelé aux côtés de ajouter_proposition
 */
-function ajouter_propositionHTML(bp,mp,proposition){
-	div_liste_propositions.innerHTML += chaineNouveauSpan(bp,mp,proposition);
+function ajouter_propositionHTML(noeudHTML,bp,mp,proposition){
+	//div_liste_propositions.innerHTML += chaineNouveauSpan(bp,mp,proposition);
+	noeudHTML.innerHTML += chaineNouveauSpan(bp,mp,proposition);
 } 
 
 /*
 Ajoute un code désapprouvé par le devin dans le HTML.
 Condition : toujours appelé aux côtés de ajouter_proposition
 */
-function ajouter_propositionHTML_mauvais(bp,mp,proposition){
-	div_liste_propositions.innerHTML += chaineNouveauSpanMauvais(bp,mp,proposition);
+function ajouter_propositionHTML_mauvais(noeudHTML,bp,mp,proposition){
+	noeudHTML.innerHTML += chaineNouveauSpanMauvais(bp,mp,proposition);
 }	
 
 
