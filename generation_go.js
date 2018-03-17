@@ -51,9 +51,9 @@ function indiquerBPetMP(propositionDevin){
 Fonction principale au clic
 */
 document.getElementById("clic_lancement").addEventListener('click',function(e){
-	document.getElementById('div_liste_propositions').innerHTML = '';
 	document.getElementById('div_liste_propositions').style.visibility = 'hidden';
 	do{
+		document.getElementById('div_liste_propositions').innerHTML = '';
 		document.getElementById('div_bonne_reponse').innerHTML = '';
 		document.getElementById('div_bonne_reponse').style.visibility="hidden";
 		demarrerPartie({
