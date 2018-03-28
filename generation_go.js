@@ -84,6 +84,16 @@ document.getElementById("clic_lancement").addEventListener('click',function(e){
 
 });
 
+/*
+Rend visible la réponse
+*/
 document.getElementById("clic_afficher_reponse").addEventListener('click',function(e){
 	document.getElementById('div_bonne_reponse').style.visibility="visible";
 });
+
+/*
+Mélange entre eux les noeuds de proposition
+*/
+function melangerHTMLPropositions(){
+	var permutation = [];
+}

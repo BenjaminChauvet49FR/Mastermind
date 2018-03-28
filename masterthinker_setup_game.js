@@ -29,7 +29,8 @@ function demarrerPartie(parametres){
 
 
 
-/*Définit le scrambleur et le rétroscrambleur ; affiche le scrambleur.
+/*
+Définit le scrambleur et le rétroscrambleur ; affiche le scrambleur.
 Prérequis : aucun scrambleur n'est défini. chaineScrambleur est une permutation des 1ères lettres de l'alphabet sans en oublier ni en répéter. Exemple : 'BDCEFA' ou 'CHBAIEGF' ou 'ABCDEFGHIJKL'*/
 function definirScrambleur(){
 	var i,j,alea;
@@ -63,10 +64,17 @@ function definirScrambleur(){
 	}
 	
 	
-	console.log("Scrambleur : "+scrambleur);
+	debugScrambleur("Scrambleur : "+scrambleur);
 	for(i=0;i<valCles;i++){
 		retroScrambleur[positionApresA(scrambleur[i])] = i;
 	}
 	/*Affichage*/
-	console.log("Voici le tableau de rétroScrambleur : ",retroScrambleur);
+	debugScrambleur("Voici le tableau de rétroScrambleur : ",retroScrambleur);
 }	
+
+
+/*Renvoie l'indice de la lettre dans le scrambleur. 
+Exemple : si scrambleur = 'CDFAEB', indiceScrambleur('A') = 3, indiceScrambleur('E') = 4...*/
+function indiceScrambleur(lettre){
+	return retroScrambleur[positionApresA(lettre)];
+}

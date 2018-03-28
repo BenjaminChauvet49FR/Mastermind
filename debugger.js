@@ -1,6 +1,6 @@
 ﻿var scrambleurAlea = true;
 
-
+var debugScrambleurMode = false;
 var debugChaineMode = false;
 var debugBoucleMode = false;
 var debugConstructionMode=true;
@@ -10,7 +10,10 @@ var debugGeneratorMode = true;
 var indentConst = 0;
 var indentExplo = 0;
 
-
+function debugScrambleur(chaine){
+	if (debugScrambleurMode)
+		console.log(chaine);
+}
 function debugChaine(chaine){
 	if (debugChaineMode)
 		console.log(chaine);

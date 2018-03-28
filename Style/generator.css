@@ -1,11 +1,3 @@
-body {
-	background-image: url("seamless/nuages.jpg");
-}
-
-table{
-	border-collapse : collapse;
-}
-
 #div_preparation, #div_resume{
 	background-image: url("seamless/acier.jpg");
 	width:20%;
