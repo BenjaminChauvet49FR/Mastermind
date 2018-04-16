@@ -56,14 +56,24 @@ var nbPlacesLibres; //nombre de places libres dans tableauChaine
 /*
 document.getElementById s. Certains ne servent que dans un fichier.
 */
-var input_nbCles = document.getElementById("input_nbCles");
-var input_valCles = document.getElementById("input_valCles");
-var div_preparation = document.getElementById("div_preparation");
-var div_resume = document.getElementById("div_resume");
-var div_liste_propositions = document.getElementById("div_liste_propositions");
-var div_proposition = document.getElementById("div_proposition");
-var div_proposition_commune = document.getElementById("div_proposition_commune");
-var div_ultime_proposition = document.getElementById("div_ultime_proposition");
-var div_code_impossible = document.getElementById("div_code_impossible");
+$(function(){
+	var input_nbCles = $("#input_nbCles");
+	var input_valCles = $("#input_valCles");
+	var input_bons = $("#input_bons");
+	var input_mauvais = $("#input_mauvais");
+	var div_preparation = $("#div_preparation");
+	var div_resume = $("#div_resume");
+	var div_liste_propositions = $("#div_liste_propositions");
+	var div_liste_propositions = $("#div_liste_propositions");
+	var div_proposition = $("#div_proposition");
+	var div_proposition_commune = $("#div_proposition_commune");
+	var div_ultime_proposition = $("#div_ultime_proposition");
+	var div_code_impossible = $("#div_code_impossible");
+	var span_proposition = $("#span_proposition");
+	var span_ultime_proposition = $("#span_ultime_proposition");
+	var input_reponse_finale = $("#input_reponse_finale");
+	var input_code_impossible = $("#input_code_impossible");
+
+});
 
 

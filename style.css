@@ -49,10 +49,12 @@ table{
 
 #clic_ultime_oui{
 	background-color:#ccff00;
+	cursor:pointer;
 }
 
 #clic_ultime_non{
 	background-color:#ffcc00;
+	cursor:pointer;
 }
 
 #proposition{
@@ -70,6 +72,7 @@ table{
 	margin-left:0.2em;
 	margin-right:0.2em;
 	background-color:#ff8800;
+
 }
 
 .ultime_proposition_ia{

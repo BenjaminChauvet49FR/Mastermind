@@ -1,18 +1,3 @@
-#div_preparation, #div_resume{
-	background-image: url("seamless/acier.jpg");
-	width:20%;
-}
-
-#div_proposition{
-	background-image: url("seamless/bois.jpg");
-	width:20%;
-}
-
-#div_liste_propositions, #div_bonne_reponse{
-	background-image: url("seamless/papier.jpg");
-	width:20%;
-}
-
 #input_valCles, #input_nbCles{
 	width:2em;
 }
@@ -34,6 +19,7 @@
 	margin-left:0.2em;
 	margin-right:0.2em;
 	background-color:#ff8800;
+	cursor:pointer;
 }
 
 .ultime_proposition_ia{

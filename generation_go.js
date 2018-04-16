@@ -50,45 +50,50 @@ function indiquerBPetMP(propositionDevin){
 /*
 Fonction principale au clic
 */
-document.getElementById("clic_lancement").addEventListener('click',function(e){
-	document.getElementById('div_liste_propositions').style.visibility = 'hidden';
+$("#clic_lancement").click(function(e){
+	$(div_liste_propositions).css("visibility","hidden");
+	//document.getElementById('div_liste_propositions').style.visibility = 'hidden';
 	do{
-		document.getElementById('div_liste_propositions').innerHTML = '';
+		/*document.getElementById('div_liste_propositions').innerHTML = '';
 		document.getElementById('div_bonne_reponse').innerHTML = '';
-		document.getElementById('div_bonne_reponse').style.visibility="hidden";
+		document.getElementById('div_bonne_reponse').style.visibility="hidden";*/
+		$(div_liste_propositions).html("");
+		$(div_bonne_reponse).html("");
+		$(div_bonne_reponse).css("visibility","hidden");
 		demarrerPartie({
-			nombreCles : parseInt(document.getElementById('input_nbCles').value),
-			valeurCles : parseInt(document.getElementById('input_valCles').value)
+			nombreCles : parseInt($(input_nbCles).val()),
+			valeurCles : parseInt($(input_valCles).val())
 		});
 		//Attention, pas de garde sur ces valeurs !
-		genererCodeMaitre(parseInt(document.getElementById('input_nbCles').value),parseInt(document.getElementById('input_valCles').value));
+		genererCodeMaitre(parseInt($(input_nbCles).val()),parseInt($(input_valCles).val()));
 		var indicationMaitre = indiquerBPetMP(proposition);
-		ajouter_propositionHTML(document.getElementById('div_liste_propositions'),indicationMaitre.bp,indicationMaitre.mp,proposition);
+		ajouter_propositionHTML($(div_liste_propositions),indicationMaitre.bp,indicationMaitre.mp,proposition);
 		var reponseDevin = reagirABPMP(indicationMaitre.bp,indicationMaitre.mp);
 		var debugMeThat = 0;
 		while (reponseDevin != DEVIN_TROUVE_CERTITUDE && reponseDevin != DEVIN_TROUVE_CHANCEUX && debugMeThat < 100){
 			indicationMaitre = indiquerBPetMP(proposition);
 			if (indicationMaitre.bp != nbCles){ 
-				ajouter_propositionHTML(document.getElementById('div_liste_propositions'),indicationMaitre.bp,indicationMaitre.mp,proposition);
+				ajouter_propositionHTML($(div_liste_propositions),indicationMaitre.bp,indicationMaitre.mp,proposition);
 			}
 			reponseDevin = reagirABPMP(indicationMaitre.bp,indicationMaitre.mp); 
 			debugMeThat++;
 		}
 		//On indique la bonne réponse
-		ajouter_propositionHTML(document.getElementById('div_bonne_reponse'),nbCles,0,proposition);	
+		ajouter_propositionHTML($(div_bonne_reponse),nbCles,0,proposition);	
 		if(reponseDevin == DEVIN_TROUVE_CHANCEUX){
-				document.getElementById('div_bonne_reponse').style.visibility="visible";
+				$(div_bonne_reponse).css("visibility","visible");
 		}		
 	}while (reponseDevin != DEVIN_TROUVE_CERTITUDE);
-	document.getElementById('div_liste_propositions').style.visibility = 'visible';
+	$(div_liste_propositions).css("visibility","visible");
 
 });
 
 /*
 Rend visible la réponse
 */
-document.getElementById("clic_afficher_reponse").addEventListener('click',function(e){
-	document.getElementById('div_bonne_reponse').style.visibility="visible";
+$("#clic_afficher_reponse").click(function(e){
+	$(div_bonne_reponse).css("visibility","visible");
+	//document.getElementById('div_bonne_reponse').style.visibility="visible";
 });
 
 /*

@@ -6,9 +6,10 @@ Ce fichier contient les fonctions de manipulation de HTML qui découlent des év
 Ajoute un code (qui n'est ni celui de certitude ni celui de désapprobation) dans le HTML.
 Condition : toujours appelé aux côtés de ajouter_proposition
 */
-function ajouter_propositionHTML(noeudHTML,bp,mp,proposition){
+function ajouter_propositionHTML(noeudJQuery,bp,mp,proposition){
 	//div_liste_propositions.innerHTML += chaineNouveauSpan(bp,mp,proposition);
-	noeudHTML.innerHTML += chaineNouveauSpan(bp,mp,proposition);
+	//noeudHTML.innerHTML += chaineNouveauSpan(bp,mp,proposition);
+	$(noeudJQuery).append(chaineNouveauSpan(bp,mp,proposition));
 } 
 
 /*
@@ -24,7 +25,8 @@ function ajouter_propositionHTML_mauvais(noeudHTML,bp,mp,proposition){
 Change la couleur d'un élément span avec une couleur en hexadécimal
 */
 function changerCouleurElt(spanElt,couleurHexaDecimal){
-	spanElt.style.backgroundColor =couleurHexaDecimal;
+	//spanElt.style.backgroundColor =couleurHexaDecimal;
+	spanElt.css("backgroundColor",couleurHexaDecimal);
 }
 
 /*
