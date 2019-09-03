@@ -1,4 +1,4 @@
-/*Avant, il n'y avait pas de llLegacy (nulle part) ni de indiceAncien (dans construireArbreBP/MP)*/	
+AAAA/*Avant, il n'y avait pas de llLegacy (nulle part) ni de indiceAncien (dans construireArbreBP/MP)*/	
 	
 /*Renvoie l'arbre de combinaisons en sachant qu'il reste nbRestants (>= 1) lettre(s) à placer, qu'il y aura nbMal arbres à placer, et qu'il faut tenir compte de ll.
 Prérequis : tableauChaine est dans un certain état (éventuellement vierge), il faudra penser à essayer les clés libres contenues dans llLegacy
